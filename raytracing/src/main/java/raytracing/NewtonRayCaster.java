@@ -82,6 +82,7 @@ public class NewtonRayCaster implements RayCaster {
     
     // Apply Newton's approximation method
     private float approximateT(Ray ray, Body body, float t) {
+        float tPrev = Float.NaN;
         for (int i = 0; i < approxSteps; i++) {
             Point3f rayPoint = ray.rayPoint(t);
             float fVal = body.f(rayPoint);
@@ -96,6 +97,11 @@ public class NewtonRayCaster implements RayCaster {
             float gPrime = dir.x * fxVal + dir.y * fyVal + dir.z * fzVal;
             float change = fVal / gPrime;
             t -= change;
+            if (t == tPrev) {
+                // t doesn't change when change is too small
+                break;
+            }
+            tPrev = t;
         }
         return t;
     }
