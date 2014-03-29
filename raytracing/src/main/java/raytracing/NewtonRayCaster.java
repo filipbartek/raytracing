@@ -98,9 +98,11 @@ public class NewtonRayCaster implements RayCaster {
             float change = fVal / gPrime;
             t -= change;
             if (t == tPrev) {
-                // t doesn't change when change is too small
+                // t doesn't change when `change` is too small
                 break;
             }
+            // Note that `t` may oscillate between two values;
+            // then unnecessary iterations will occur.
             tPrev = t;
         }
         return t;
