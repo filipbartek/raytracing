@@ -6,8 +6,6 @@
 
 package raytracing;
 
-import javax.vecmath.Point3f;
-import javax.vecmath.Vector3f;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
