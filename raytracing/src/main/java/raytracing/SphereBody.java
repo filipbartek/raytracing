@@ -8,7 +8,7 @@ package raytracing;
 
 import javax.vecmath.Point3f;
 
-
+// Represents a sphere with radius `radius` and center in [0, 0, 0].
 public class SphereBody implements Body {
     
     private final float radiusSquare;
