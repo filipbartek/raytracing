@@ -10,5 +10,13 @@ import javax.vecmath.Vector3f;
  */
 public class Ray {
     public Point3f startingPoint;
-    public Vector3f direction;
+    public Vector3f dir;
+    
+    public Point3f rayPoint(float t) {
+        Vector3f rayShift = (Vector3f) dir.clone();
+        rayShift.scale(t);
+        Point3f rayPoint = (Point3f) startingPoint.clone();
+        rayPoint.add(rayShift);
+        return rayPoint;
+    }
 }
