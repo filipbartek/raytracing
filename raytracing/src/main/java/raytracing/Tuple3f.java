@@ -51,7 +51,8 @@ public class Tuple3f implements Cloneable {
         this.z *= s;
     }
     
-    public Object clone() {
+    @Override
+    public Object clone() throws CloneNotSupportedException {
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {
