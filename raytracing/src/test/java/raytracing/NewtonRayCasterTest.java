@@ -47,8 +47,8 @@ public class NewtonRayCasterTest {
     public void testCastRay() {
         System.out.println("castRay");
         
-        Point3f startingPoint = new Point3f(2, 2, 2);
-        Vector3f dir = new Vector3f(-1, -1, -1);
+        Tuple3f startingPoint = new Tuple3f(2, 2, 2);
+        Tuple3f dir = new Tuple3f(-1, -1, -1);
         float step = 1.0f / 2;
         float limit = 10;
         int approxSteps = 16;
@@ -58,8 +58,8 @@ public class NewtonRayCasterTest {
         double delta = 0.0;
         
         Ray ray = new Ray(startingPoint, dir);
-        float[] rayPoint = Tuple3f.floatFromTuple(ray.startingPoint);
-        float[] rayDir = Tuple3f.floatFromTuple(ray.dir);
+        float[] rayPoint = ray.startingPoint.getFloat();
+        float[] rayDir = ray.dir.getFloat();
         Body body = new SphereBody(radius);
         Body[] bodies = {body};
         NewtonRayCaster instance = new NewtonRayCaster(step, limit, approxSteps);

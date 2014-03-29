@@ -1,10 +1,6 @@
 
 package raytracing;
 
-import javax.vecmath.Point3f;
-import javax.vecmath.Vector3f;
-
-
 public class NewtonRayCaster implements RayCaster {
     
     private final float step;
@@ -26,14 +22,14 @@ public class NewtonRayCaster implements RayCaster {
     public float[/*3*/] castRay(float[/*3*/] rayPoint, float[/*3*/] rayDir, Body[] bodies) {
         assert bodies.length == 1; // TODO: Generalize.
         
-        Point3f startingPoint = new Point3f(rayPoint);
-        Vector3f dir = new Vector3f(rayDir);
+        Tuple3f startingPoint = new Tuple3f(rayPoint);
+        Tuple3f dir = new Tuple3f(rayDir);
         Ray ray = new Ray(startingPoint, dir);
         
         float t = stepT(ray, bodies);
         // assert t >= 0;
         if (t == 0) {
-            return Tuple3f.floatFromTuple(ray.startingPoint);
+            return ray.startingPoint.getFloat();
         }
         if (t == Float.POSITIVE_INFINITY) {
             return null;
@@ -43,7 +39,7 @@ public class NewtonRayCaster implements RayCaster {
         t -= step / 2;
         t = approximateT(ray, bodies[0], t);
         
-        return Tuple3f.floatFromTuple(ray.rayPoint(t));
+        return ray.rayPoint(t).getFloat();
     }
     
     // Estimate t by making linear steps
@@ -57,9 +53,9 @@ public class NewtonRayCaster implements RayCaster {
         float fSignumPrev = Float.NaN; // Only stays NaN in first iteration
         float t;
         for (t = 0; t < limit; t += step) {
-            Point3f rayPoint = ray.rayPoint(t);
+            Tuple3f rayPoint = ray.rayPoint(t);
             // Now we have rayPoint for this iteration (value of t).
-            float fVal = body.f(Tuple3f.floatFromTuple(rayPoint));
+            float fVal = body.f(rayPoint.getFloat());
             assert !Float.isNaN(fVal);
             if (fVal == 0) {
                 break;
@@ -88,16 +84,16 @@ public class NewtonRayCaster implements RayCaster {
     private float approximateT(Ray ray, Body body, float t) {
         float tPrev = Float.NaN;
         for (int i = 0; i < approxSteps; i++) {
-            Point3f rayPoint = ray.rayPoint(t);
-            float fVal = body.f(Tuple3f.floatFromTuple(rayPoint));
+            Tuple3f rayPoint = ray.rayPoint(t);
+            float fVal = body.f(rayPoint.getFloat());
             assert !Float.isNaN(fVal);
             if (fVal == 0) {
                 return t;
             }
-            float fxVal = body.fx(Tuple3f.floatFromTuple(rayPoint));
-            float fyVal = body.fy(Tuple3f.floatFromTuple(rayPoint));
-            float fzVal = body.fz(Tuple3f.floatFromTuple(rayPoint));
-            Vector3f dir = ray.dir;
+            float fxVal = body.fx(rayPoint.getFloat());
+            float fyVal = body.fy(rayPoint.getFloat());
+            float fzVal = body.fz(rayPoint.getFloat());
+            Tuple3f dir = ray.dir;
             float gPrime = dir.x * fxVal + dir.y * fyVal + dir.z * fzVal;
             float change = fVal / gPrime;
             t -= change;

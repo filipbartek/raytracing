@@ -4,7 +4,7 @@ package raytracing;
  *
  * @author Filip Bartek
  */
-public class Tuple3f {
+public class Tuple3f implements Cloneable {
     public float x;
     public float y;
     public float z;
@@ -27,6 +27,11 @@ public class Tuple3f {
         t[2] = this.z;
     }
     
+    public final float[/*3*/] getFloat() {
+        float[/*3*/] result = {this.x, this.y, this.z};
+        return result;
+    }
+    
     public Tuple3f(float[/*3*/] t) {
         assert t.length >= 3;
         this.x = t[0];
@@ -46,9 +51,11 @@ public class Tuple3f {
         this.z *= s;
     }
     
-    public static float[] floatFromTuple(javax.vecmath.Tuple3f t) {
-        float[] result = new float[3];
-        t.get(result);
-        return result;
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError();
+        }
     }
 }
