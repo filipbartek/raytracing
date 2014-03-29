@@ -2,9 +2,6 @@
 package raytracing;
 
 // Dummy body
-
-import javax.vecmath.Point3f;
-
 // Returns zero in all functions
 public class ZeroBody implements Body {
 
