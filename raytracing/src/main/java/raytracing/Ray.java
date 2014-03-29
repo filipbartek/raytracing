@@ -12,6 +12,11 @@ public class Ray {
     public Point3f startingPoint;
     public Vector3f dir;
     
+    public Ray(Point3f startingPoint, Vector3f dir) {
+        this.startingPoint = startingPoint;
+        this.dir = dir;
+    }
+
     public Point3f rayPoint(float t) {
         assert !Float.isNaN(t);
         Vector3f rayShift = (Vector3f) dir.clone();
