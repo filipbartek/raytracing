@@ -36,6 +36,7 @@ public class NewtonRayCaster implements RayCaster {
         }
         // assert t > 0;
         // assert t < Float.POSITIVE_INFINITY;
+        t -= step / 2;
         t = approximateT(ray, bodies[0], t);
         
         return ray.rayPoint(t);
