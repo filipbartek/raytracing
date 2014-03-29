@@ -1,17 +1,16 @@
 
 package raytracing;
 
-import javax.vecmath.Point3f;
-
 /**
  *
  * @author Filip Bartek
  */
 public interface RayCaster {
     /**
-     * @param ray
+     * @param rayPoint
+     * @param rayDir
      * @param bodies
      * @return Coordinates of intersection
      */
-    Point3f castRay(Ray ray, Body[] bodies);
+    float[/*3*/] castRay(float[/*3*/] rayPoint, float[/*3*/] rayDir, Body[] bodies);
 }

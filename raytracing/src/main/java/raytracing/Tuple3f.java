@@ -45,4 +45,10 @@ public class Tuple3f {
         this.y *= s;
         this.z *= s;
     }
+    
+    public static float[] floatFromTuple(javax.vecmath.Tuple3f t) {
+        float[] result = new float[3];
+        t.get(result);
+        return result;
+    }
 }

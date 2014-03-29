@@ -18,22 +18,26 @@ public class SphereBody implements Body {
     }
 
     @Override
-    public float f(Point3f point) {
+    public float f(float[/*3*/] p) {
+        Point3f point = new Point3f(p);
         return point.x * point.x + point.y * point.y + point.z * point.z - radiusSquare;
     }
 
     @Override
-    public float fx(Point3f point) {
+    public float fx(float[/*3*/] p) {
+        Point3f point = new Point3f(p);
         return 2 * point.x;
     }
 
     @Override
-    public float fy(Point3f point) {
+    public float fy(float[/*3*/] p) {
+        Point3f point = new Point3f(p);
         return 2 * point.y;
     }
 
     @Override
-    public float fz(Point3f point) {
+    public float fz(float[/*3*/] p) {
+        Point3f point = new Point3f(p);
         return 2 * point.z;
     }
     

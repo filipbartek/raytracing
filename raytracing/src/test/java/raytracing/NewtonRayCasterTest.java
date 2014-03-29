@@ -54,14 +54,19 @@ public class NewtonRayCasterTest {
         int approxSteps = 16;
         float radius = 1;
         float expCoord = (float) Math.sqrt(radius * radius / 3);
-        Point3f expResult = new Point3f(expCoord, expCoord, expCoord);
+        float[] expResult = {expCoord, expCoord, expCoord};
+        double delta = 0.0;
         
         Ray ray = new Ray(startingPoint, dir);
+        float[] rayPoint = Tuple3f.floatFromTuple(ray.startingPoint);
+        float[] rayDir = Tuple3f.floatFromTuple(ray.dir);
         Body body = new SphereBody(radius);
         Body[] bodies = {body};
         NewtonRayCaster instance = new NewtonRayCaster(step, limit, approxSteps);
-        Point3f result = instance.castRay(ray, bodies);
-        assertEquals(expResult, result);
+        float[] result = instance.castRay(rayPoint, rayDir, bodies);
+        for (int i = 0; i < 3; i++) {
+            assertEquals(expResult[i], result[i], delta);
+        }
     }
     
 }
