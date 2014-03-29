@@ -6,22 +6,22 @@ package raytracing;
 public class ZeroBody implements Body {
 
     @Override
-    public double f(double x, double y, double z) {
+    public float f(float x, float y, float z) {
         return 0;
     }
 
     @Override
-    public double fx(double x, double y, double z) {
+    public float fx(float x, float y, float z) {
         return 0;
     }
 
     @Override
-    public double fy(double x, double y, double z) {
+    public float fy(float x, float y, float z) {
         return 0;
     }
 
     @Override
-    public double fz(double x, double y, double z) {
+    public float fz(float x, float y, float z) {
         return 0;
     }
     

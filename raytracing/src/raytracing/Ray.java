@@ -6,6 +6,6 @@ package raytracing;
  * @author Filip Bartek
  */
 public class Ray {
-    public double[/*3*/] startingPoint;
-    public double[/*3*/] direction;
+    public float[/*3*/] startingPoint;
+    public float[/*3*/] direction;
 }

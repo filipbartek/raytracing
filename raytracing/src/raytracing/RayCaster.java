@@ -11,5 +11,5 @@ public interface RayCaster {
      * @param bodies
      * @return Coordinates of intersection
      */
-    double[/*3*/] castRay(Ray ray, Body[] bodies);
+    float[/*3*/] castRay(Ray ray, Body[] bodies);
 }
