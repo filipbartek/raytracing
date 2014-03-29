@@ -13,7 +13,7 @@ public class Ray {
     public Vector3f dir;
     
     public Point3f rayPoint(float t) {
-        assert t != Float.NaN;
+        assert !Float.isNaN(t);
         Vector3f rayShift = (Vector3f) dir.clone();
         rayShift.scale(t);
         Point3f rayPoint = (Point3f) startingPoint.clone();

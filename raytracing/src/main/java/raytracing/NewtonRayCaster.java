@@ -54,7 +54,7 @@ public class NewtonRayCaster implements RayCaster {
             Point3f rayPoint = ray.rayPoint(t);
             // Now we have rayPoint for this iteration (value of t).
             float fVal = body.f(rayPoint);
-            assert fVal != Float.NaN;
+            assert !Float.isNaN(fVal);
             if (fVal == 0) {
                 break;
             }
@@ -62,7 +62,7 @@ public class NewtonRayCaster implements RayCaster {
             float fSignum = Math.signum(fVal);
             // assert fSignum != 0;
             // assert fSignum != Float.NaN;
-            if (fSignumPrev != Float.NaN) {
+            if (!Float.isNaN(fSignumPrev)) {
                 // We're not in the first iteration.
                 if (fSignum != fSignumPrev) {
                     break;
@@ -83,7 +83,7 @@ public class NewtonRayCaster implements RayCaster {
         for (int i = 0; i < approxSteps; i++) {
             Point3f rayPoint = ray.rayPoint(t);
             float fVal = body.f(rayPoint);
-            assert fVal != Float.NaN;
+            assert !Float.isNaN(fVal);
             if (fVal == 0) {
                 return t;
             }
