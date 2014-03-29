@@ -50,7 +50,7 @@ public class NewtonRayCaster implements RayCaster {
         assert bodies.length == 1;
         Body body = bodies[0];
         
-        float fSignumPrev = Float.NaN;
+        float fSignumPrev = Float.NaN; // Only stays NaN in first iteration
         float t;
         for (t = 0; t < limit; t += step) {
             Point3f rayPoint = ray.rayPoint(t);
