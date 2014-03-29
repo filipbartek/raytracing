@@ -13,6 +13,7 @@ public class NewtonRayCaster implements RayCaster {
     
     public NewtonRayCaster(float step, float limit, int approxSteps) {
         assert step > 0;
+        // TODO: Assert `step` is large enough to change `t` in each iteration.
         assert approxSteps >= 0;
         this.step = step;
         this.limit = limit;
