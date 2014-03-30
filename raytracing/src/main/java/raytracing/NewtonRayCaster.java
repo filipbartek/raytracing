@@ -17,12 +17,12 @@ public class NewtonRayCaster implements RayCaster {
     }
     
     @Override
-    public float[/*3*/] castRay(float[/*3*/] rayPoint, float[/*3*/] rayDir, Body[] bodies) {
+    public Intersection castRay(float[/*3*/] rayPoint, float[/*3*/] rayDir, Body[] bodies) {
         Tuple3f startingPoint = new Tuple3f(rayPoint);
         Tuple3f dir = new Tuple3f(rayDir);
         Ray ray = new Ray(startingPoint, dir);
         Intersection intersection = castRay(ray, bodies);
-        return intersection.getPoint().getFloat(); // TODO: Return the whole intersection information.
+        return intersection;
     }
 
     private IntersectionRay castRay(Ray ray, Body[] bodies) {
