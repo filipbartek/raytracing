@@ -8,6 +8,36 @@ public class Tuple3f implements Cloneable {
     public float x;
     public float y;
     public float z;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + Float.floatToIntBits(this.x);
+        hash = 47 * hash + Float.floatToIntBits(this.y);
+        hash = 47 * hash + Float.floatToIntBits(this.z);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Tuple3f other = (Tuple3f) obj;
+        if (Float.floatToIntBits(this.x) != Float.floatToIntBits(other.x)) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.y) != Float.floatToIntBits(other.y)) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.z) != Float.floatToIntBits(other.z)) {
+            return false;
+        }
+        return true;
+    }
     
     public Tuple3f() {
         this.x = 0.0f;
@@ -58,5 +88,14 @@ public class Tuple3f implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new InternalError();
         }
+    }
+    
+    public final float length() {
+        return (float) Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    }
+    
+    public void normalize() {
+        float s = 1.0f / length();
+        scale(s);
     }
 }
