@@ -51,6 +51,12 @@ public class Tuple3f implements Cloneable {
         this.z += t1.z;
     }
     
+    public final void sub(Tuple3f t) {
+        this.x -= t.x;
+        this.y -= t.y;
+        this.z -= t.z;
+    }
+    
     public final void scale(float s) {
         this.x *= s;
         this.y *= s;
