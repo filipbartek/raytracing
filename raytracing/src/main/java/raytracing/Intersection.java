@@ -20,7 +20,11 @@ public abstract class Intersection {
         this.hitApprox = hitApprox;
         this.hitExact = hitExact;
     }
-    
+
+    /**
+     * Returns point of intersection with the body.
+     * @return intersection point
+     */
     public abstract Tuple3f getPoint();
 
     public float[/*3*/] getPointFloat() {
