@@ -39,8 +39,11 @@ public class NewtonRayCaster implements RayCaster {
         boolean hitExact = false;
         float[] fSignumsPrev = new float[bodies.length];
         int i = 0;
+        Tuple3f stepVec = (Tuple3f) ray.dir.clone();
+        stepVec.scale(step);
+        Tuple3f rayPoint = (Tuple3f) ray.startingPoint.clone();
         for (t = 0.0f; t < limit; t += step) {
-            Tuple3f rayPoint = ray.rayPoint(t);
+            // assert rayPoint.equals(ray.rayPoint(t));
             // Now we have rayPoint for this iteration (value of t).
             for (i = 0; i < bodies.length; i++) {
                 Body body = bodies[i];
@@ -67,6 +70,7 @@ public class NewtonRayCaster implements RayCaster {
             if (hitApprox) {
                 break;
             }
+            rayPoint.add(stepVec);
         }
         
         if (t >= limit) {
