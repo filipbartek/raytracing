@@ -14,7 +14,7 @@ public abstract class Intersection {
         this.hitApprox = false;
         this.hitExact = false;
     }
-    
+
     public Intersection(Body body, boolean hitApprox, boolean hitExact) {
         this.body = body;
         this.hitApprox = hitApprox;
