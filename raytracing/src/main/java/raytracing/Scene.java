@@ -19,6 +19,12 @@ public class Scene {
         this.lighting = lighting;
     }
     
+    /**
+     * Returns color of a given ray.
+     * The ray corresponds to a pixel in screen.
+     * @param ray
+     * @return color of the intersection
+     */
     public Color getRGB(Ray ray) {
         Intersection intersection = rayCaster.castRay(ray, bodies);
         Color color = lighting.getRGB(intersection, lights);
