@@ -22,5 +22,8 @@ public abstract class Intersection {
     }
     
     public abstract Tuple3f getPoint();
-    // TODO: Make float[] method
+
+    public float[/*3*/] getPointFloat() {
+        return getPoint().getFloat();
+    }
 }
