@@ -22,7 +22,7 @@ public class NewtonRayCaster implements RayCaster {
         Tuple3f dir = new Tuple3f(rayDir);
         Ray ray = new Ray(startingPoint, dir);
         Intersection intersection = castRay(ray, bodies);
-        return intersection.getPoint().getFloat();
+        return intersection.getPoint().getFloat(); // TODO: Return the whole intersection information.
     }
 
     // TODO: Generalize for more than one body.
@@ -31,18 +31,14 @@ public class NewtonRayCaster implements RayCaster {
         assert bodies.length == 1; // TODO: Generalize.
         
         IntersectionRay intersection = stepT(ray, bodies);
-        float t = intersection.t;
-        // assert t >= 0;
-        if (t == 0) {
+        if (!intersection.hitApprox || intersection.hitExact) {
             return intersection;
-        }
-        if (t == Float.POSITIVE_INFINITY) {
-            return null;
         }
         // assert t > 0;
         // assert t < Float.POSITIVE_INFINITY;
-        t -= step / 2;
-        intersection = approximateT(ray, bodies[0], t);
+        intersection.t -= step / 2;
+        
+        intersection = approximateT(intersection);
         
         return intersection;
     }
@@ -96,7 +92,11 @@ public class NewtonRayCaster implements RayCaster {
      * @param t Approximation of `t`
      * @return Always `hitApprox` true
      */
-    private IntersectionRay approximateT(Ray ray, Body body, float t) {
+    private IntersectionRay approximateT(IntersectionRay intersection) {
+        assert intersection.hitApprox;
+        Ray ray = intersection.ray;
+        Body body = intersection.body;
+        float t = intersection.t;
         float tPrev = Float.NaN;
         for (int i = 0; i < approxSteps; i++) {
             Tuple3f rayPoint = ray.rayPoint(t);
