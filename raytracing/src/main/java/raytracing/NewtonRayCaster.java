@@ -25,11 +25,7 @@ public class NewtonRayCaster implements RayCaster {
         return intersection.getPoint().getFloat(); // TODO: Return the whole intersection information.
     }
 
-    // TODO: Generalize for more than one body.
-    // Returns null if ray doesn't hit any body
     private IntersectionRay castRay(Ray ray, Body[] bodies) {
-        assert bodies.length == 1; // TODO: Generalize.
-        
         IntersectionRay intersection = stepT(ray, bodies);
         if (!intersection.hitApprox || intersection.hitExact) {
             return intersection;
@@ -43,53 +39,53 @@ public class NewtonRayCaster implements RayCaster {
         return intersection;
     }
     
-    // Estimate t by making linear steps
-    // Returns the lowest t that changes sign of bodies[0].f or reaches f equal to 0
-    // Returns POSITIVE_INFINITY if t surpasses limit
+    // Estimate t by making linearly spaced steps
     private IntersectionRay stepT(Ray ray, Body[] bodies) {
-        assert bodies.length == 1; // TODO: Generalize.
-        Body body = bodies[0];
-        
-        float fSignumPrev = Float.NaN; // Only stays NaN in first iteration
         float t;
         boolean hitApprox = false;
         boolean hitExact = false;
-        for (t = 0; t < limit; t += step) {
+        float[] fSignumsPrev = new float[bodies.length];
+        int i = 0;
+        for (t = 0.0f; t < limit; t += step) {
             Tuple3f rayPoint = ray.rayPoint(t);
             // Now we have rayPoint for this iteration (value of t).
-            float fVal = body.f(rayPoint.getFloat());
-            assert !Float.isNaN(fVal);
-            if (fVal == 0) {
-                hitApprox = true;
-                hitExact = true;
-                break;
-            }
-            // assert fVal != 0;
-            float fSignum = Math.signum(fVal);
-            // assert fSignum != 0;
-            // assert fSignum != Float.NaN;
-            if (!Float.isNaN(fSignumPrev)) {
-                // We're not in the first iteration.
-                if (fSignum != fSignumPrev) {
+            for (i = 0; i < bodies.length; i++) {
+                Body body = bodies[i];
+                float fVal = body.f(rayPoint.getFloat());
+                assert !Float.isNaN(fVal);
+                if (fVal == 0) {
                     hitApprox = true;
+                    hitExact = true;
                     break;
                 }
+                // assert fVal != 0;
+                float fSignum = Math.signum(fVal);
+                // assert fSignum != 0;
+                // assert fSignum != Float.NaN;
+                if (t != 0.0f) {
+                    // We're not in the first iteration.
+                    if (fSignum != fSignumsPrev[i]) {
+                        hitApprox = true;
+                        break;
+                    }
+                }
+                fSignumsPrev[i] = fSignum;
             }
-            fSignumPrev = fSignum;
+            if (hitApprox) {
+                break;
+            }
         }
         
         if (t >= limit) {
             t = Float.POSITIVE_INFINITY;
         }
         
-        return new IntersectionRay(ray, t, body, hitApprox, hitExact);
+        return new IntersectionRay(ray, t, bodies[i], hitApprox, hitExact);
     }
     
     /** Apply Newton's approximation method
      * 
-     * @param ray
-     * @param body
-     * @param t Approximation of `t`
+     * @param intersection Approximate intersection
      * @return Always `hitApprox` true
      */
     private IntersectionRay approximateT(IntersectionRay intersection) {
