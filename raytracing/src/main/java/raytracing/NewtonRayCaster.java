@@ -15,21 +15,25 @@ public class NewtonRayCaster implements RayCaster {
         this.limit = limit;
         this.approxSteps = approxSteps;
     }
-
-    // TODO: Generalize for more than one body.
-    // Returns null if ray doesn't hit any body
+    
     @Override
     public float[/*3*/] castRay(float[/*3*/] rayPoint, float[/*3*/] rayDir, Body[] bodies) {
-        assert bodies.length == 1; // TODO: Generalize.
-        
         Tuple3f startingPoint = new Tuple3f(rayPoint);
         Tuple3f dir = new Tuple3f(rayDir);
         Ray ray = new Ray(startingPoint, dir);
+        Tuple3f intersectionPoint = castRay(ray, bodies);
+        return intersectionPoint.getFloat();
+    }
+
+    // TODO: Generalize for more than one body.
+    // Returns null if ray doesn't hit any body
+    private Tuple3f castRay(Ray ray, Body[] bodies) {
+        assert bodies.length == 1; // TODO: Generalize.
         
         float t = stepT(ray, bodies);
         // assert t >= 0;
         if (t == 0) {
-            return ray.startingPoint.getFloat();
+            return (Tuple3f) ray.startingPoint.clone();
         }
         if (t == Float.POSITIVE_INFINITY) {
             return null;
@@ -39,7 +43,7 @@ public class NewtonRayCaster implements RayCaster {
         t -= step / 2;
         t = approximateT(ray, bodies[0], t);
         
-        return ray.rayPoint(t).getFloat();
+        return ray.rayPoint(t);
     }
     
     // Estimate t by making linear steps
