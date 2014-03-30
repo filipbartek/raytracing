@@ -4,7 +4,7 @@ package raytracing;
 
 import java.awt.Color;
 
-public class SphereBody extends ColoredBody {
+public class SphereBody extends ColoredBody implements Body {
     
     private final float radiusSquare;
     
