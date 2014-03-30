@@ -6,6 +6,7 @@
 
 package raytracing;
 
+import java.awt.Color;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -41,7 +42,7 @@ public class NewtonRayCasterTest {
     /**
      * Test of castRay method, of class NewtonRayCaster.
      */
-    @org.junit.Test
+    @Test
     public void testCastRay() {
         System.out.println("castRay");
         
@@ -54,17 +55,21 @@ public class NewtonRayCasterTest {
         float expCoord = (float) Math.sqrt(radius * radius / 3);
         float[] expResult = {expCoord, expCoord, expCoord};
         double delta = 0.0;
+        Color color = Color.WHITE;
         
         Ray ray = new Ray(startingPoint, dir);
         float[] rayPoint = ray.startingPoint.getFloat();
         float[] rayDir = ray.dir.getFloat();
-        Body body0 = new SphereBody(radius);
-        Body body1 = new SphereBody(radius / 2);
+        Body body0 = new SphereBody(color, radius);
+        Body body1 = new SphereBody(color, radius / 2);
         Body[] bodies = {body0, body1};
         NewtonRayCaster instance = new NewtonRayCaster(step, limit, approxSteps);
-        float[] result = instance.castRay(rayPoint, rayDir, bodies);
+        
+        Intersection result = instance.castRay(rayPoint, rayDir, bodies);
+        
+        float[] resultFloat = result.getPointFloat();
         for (int i = 0; i < 3; i++) {
-            assertEquals(expResult[i], result[i], delta);
+            assertEquals(expResult[i], resultFloat[i], delta);
         }
     }
     
