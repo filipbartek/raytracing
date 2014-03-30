@@ -58,8 +58,9 @@ public class NewtonRayCasterTest {
         Ray ray = new Ray(startingPoint, dir);
         float[] rayPoint = ray.startingPoint.getFloat();
         float[] rayDir = ray.dir.getFloat();
-        Body body = new SphereBody(radius);
-        Body[] bodies = {body};
+        Body body0 = new SphereBody(radius);
+        Body body1 = new SphereBody(radius / 2);
+        Body[] bodies = {body0, body1};
         NewtonRayCaster instance = new NewtonRayCaster(step, limit, approxSteps);
         float[] result = instance.castRay(rayPoint, rayDir, bodies);
         for (int i = 0; i < 3; i++) {
