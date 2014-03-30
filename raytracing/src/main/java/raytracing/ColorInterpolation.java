@@ -1,20 +1,52 @@
-package RayTracing;
+package raytracing;
 
+import java.awt.Color;
 
-public class ColorInterpolation {
+/**
+ *
+ * @author Jure Malovrh
+ */
+public class ColorInterpolation implements LightingModel{
 	
 	
 	/*method calculates */
-	public static void ColorCalculatingNoReflection(float[] n, float[] q, int i, int j){
-		int [] RGB = {0,0,0};
+	public static Color ColorCalculatingNoReflection(Intersection i, PointLight[] l){
+		//int [] RGB = {0,0,0};
 		
-		float multiplic = multiplicateVectors(n,q);
-		float lengthQ = calculateLength(q);
-		float lengthN = calculateLength(n);
-		
-		float cosAlpha = multiplic / (lengthN*lengthQ);
-		
-		/*calculate color with this new cosAlpha as a vector*/
+            float[] intersect = i.getPointFloat();
+            Body b = i.body;
+            float x = b.fx(intersect);
+            float y = b.fy(intersect);
+            float z = b.fz(intersect);
+            
+            float[] normal = {x,y,z};
+            
+            for(PointLight light : l){
+            //float[] lig = light.getDirection(intersect);
+                float multiplic = multiplicateVectors(normal,light.getDirection(intersect));
+		//float lengthNormal = calculateLength(normal);
+		//float lengthLight = calculateLength(lig);
+
+		float cosAlpha = multiplic;
+                Color pixelColor = new Color(0,0,0);
+                Color c = b.getColor();
+                int red = c.getRed();
+                int blue = c.getBlue();
+                int green = c.getGreen();
+                int tmpR;
+                int tmpG;
+                int tmpB;
+                if(cosAlpha <= 0){
+                   return (new Color (0,0,0)); 
+                }
+                else{ // calculates the new color
+                    tmpR = Math.round(red*cosAlpha);
+                    tmpG = Math.round(green*cosAlpha);
+                    tmpB = Math.round(blue*cosAlpha);
+                }
+                return (new Color(tmpR,tmpG,tmpB));
+            }
+            return null;
 	}
 
 	private static float calculateLength(float[] t) {
@@ -81,4 +113,9 @@ public class ColorInterpolation {
 		}
 		return tmp;
 	}
+
+    @Override
+    public Color getRGB(Intersection intersection, Light[] lights) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
