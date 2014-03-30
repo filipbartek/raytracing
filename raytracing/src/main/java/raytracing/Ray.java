@@ -13,6 +13,8 @@ public class Ray {
         this.startingPoint = startingPoint;
         this.dir = dir;
     }
+    // float[] floats = {0, 0, 0}
+    // Ray ray = new Ray(new Tuple3f(floats), new Tuple3f(dirFloats))
 
     public Tuple3f rayPoint(float t) {
         assert !Float.isNaN(t);
