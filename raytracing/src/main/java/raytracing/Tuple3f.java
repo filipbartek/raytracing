@@ -2,6 +2,8 @@ package raytracing;
 
 /**
  * Mimics javax.vecmath.Tuple3f
+ *   Reference: http://download.java.net/media/java3d/javadoc/1.3.2/javax/vecmath/Tuple3f.html
+ *   Source: https://java.net/projects/vecmath/sources/svn/content/trunk/src/javax/vecmath/Tuple3f.java
  * Encapsulates three real (`float`) coordinates (a point or vector in 3D)
  * @author Filip Bartek
  */
