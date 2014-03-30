@@ -17,15 +17,7 @@ public class NewtonRayCaster implements RayCaster {
     }
     
     @Override
-    public Intersection castRay(float[/*3*/] rayPoint, float[/*3*/] rayDir, Body[] bodies) {
-        Tuple3f startingPoint = new Tuple3f(rayPoint);
-        Tuple3f dir = new Tuple3f(rayDir);
-        Ray ray = new Ray(startingPoint, dir);
-        Intersection intersection = castRay(ray, bodies);
-        return intersection;
-    }
-
-    private IntersectionRay castRay(Ray ray, Body[] bodies) {
+    public Intersection castRay(Ray ray, Body[] bodies) {
         IntersectionRay intersection = stepT(ray, bodies);
         if (!intersection.hitApprox || intersection.hitExact) {
             return intersection;

@@ -58,14 +58,12 @@ public class NewtonRayCasterTest {
         Color color = Color.WHITE;
         
         Ray ray = new Ray(startingPoint, dir);
-        float[] rayPoint = ray.startingPoint.getFloat();
-        float[] rayDir = ray.dir.getFloat();
         Body body0 = new SphereBody(color, radius);
         Body body1 = new SphereBody(color, radius / 2);
         Body[] bodies = {body0, body1};
         NewtonRayCaster instance = new NewtonRayCaster(step, limit, approxSteps);
         
-        Intersection result = instance.castRay(rayPoint, rayDir, bodies);
+        Intersection result = instance.castRay(ray, bodies);
         
         float[] resultFloat = result.getPointFloat();
         for (int i = 0; i < 3; i++) {
