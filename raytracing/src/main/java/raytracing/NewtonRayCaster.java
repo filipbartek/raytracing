@@ -21,19 +21,20 @@ public class NewtonRayCaster implements RayCaster {
         Tuple3f startingPoint = new Tuple3f(rayPoint);
         Tuple3f dir = new Tuple3f(rayDir);
         Ray ray = new Ray(startingPoint, dir);
-        Tuple3f intersectionPoint = castRay(ray, bodies);
-        return intersectionPoint.getFloat();
+        Intersection intersection = castRay(ray, bodies);
+        return intersection.getPoint().getFloat();
     }
 
     // TODO: Generalize for more than one body.
     // Returns null if ray doesn't hit any body
-    private Tuple3f castRay(Ray ray, Body[] bodies) {
+    private IntersectionRay castRay(Ray ray, Body[] bodies) {
         assert bodies.length == 1; // TODO: Generalize.
         
-        float t = stepT(ray, bodies);
+        IntersectionRay intersection = stepT(ray, bodies);
+        float t = intersection.t;
         // assert t >= 0;
         if (t == 0) {
-            return (Tuple3f) ray.startingPoint.clone();
+            return intersection;
         }
         if (t == Float.POSITIVE_INFINITY) {
             return null;
@@ -41,27 +42,30 @@ public class NewtonRayCaster implements RayCaster {
         // assert t > 0;
         // assert t < Float.POSITIVE_INFINITY;
         t -= step / 2;
-        t = approximateT(ray, bodies[0], t);
+        intersection = approximateT(ray, bodies[0], t);
         
-        return ray.rayPoint(t);
+        return intersection;
     }
     
     // Estimate t by making linear steps
     // Returns the lowest t that changes sign of bodies[0].f or reaches f equal to 0
     // Returns POSITIVE_INFINITY if t surpasses limit
-    private float stepT(Ray ray, Body[] bodies) {
-        // Temporary:
-        assert bodies.length == 1;
+    private IntersectionRay stepT(Ray ray, Body[] bodies) {
+        assert bodies.length == 1; // TODO: Generalize.
         Body body = bodies[0];
         
         float fSignumPrev = Float.NaN; // Only stays NaN in first iteration
         float t;
+        boolean hitApprox = false;
+        boolean hitExact = false;
         for (t = 0; t < limit; t += step) {
             Tuple3f rayPoint = ray.rayPoint(t);
             // Now we have rayPoint for this iteration (value of t).
             float fVal = body.f(rayPoint.getFloat());
             assert !Float.isNaN(fVal);
             if (fVal == 0) {
+                hitApprox = true;
+                hitExact = true;
                 break;
             }
             // assert fVal != 0;
@@ -71,6 +75,7 @@ public class NewtonRayCaster implements RayCaster {
             if (!Float.isNaN(fSignumPrev)) {
                 // We're not in the first iteration.
                 if (fSignum != fSignumPrev) {
+                    hitApprox = true;
                     break;
                 }
             }
@@ -81,18 +86,28 @@ public class NewtonRayCaster implements RayCaster {
             t = Float.POSITIVE_INFINITY;
         }
         
-        return t;
+        return new IntersectionRay(ray, t, body, hitApprox, hitExact);
     }
     
-    // Apply Newton's approximation method
-    private float approximateT(Ray ray, Body body, float t) {
+    /** Apply Newton's approximation method
+     * 
+     * @param ray
+     * @param body
+     * @param t Approximation of `t`
+     * @return Always `hitApprox` true
+     */
+    private IntersectionRay approximateT(Ray ray, Body body, float t) {
         float tPrev = Float.NaN;
         for (int i = 0; i < approxSteps; i++) {
             Tuple3f rayPoint = ray.rayPoint(t);
             float fVal = body.f(rayPoint.getFloat());
             assert !Float.isNaN(fVal);
             if (fVal == 0) {
-                return t;
+                return new IntersectionRay(ray, t, body, true, true);
+            }
+            if (i >= approxSteps - 1) {
+                // Don't compute new value of `t` in the last iteration.
+                break;
             }
             float fxVal = body.fx(rayPoint.getFloat());
             float fyVal = body.fy(rayPoint.getFloat());
@@ -109,7 +124,7 @@ public class NewtonRayCaster implements RayCaster {
             // then unnecessary iterations will occur.
             tPrev = t;
         }
-        return t;
+        return new IntersectionRay(ray, t, body, true, false);
     }
     
 }
