@@ -1,30 +1,29 @@
-package rayTracing;
-
+package RayTracing;
 
 
 public class ColorInterpolation {
 	
 	
 	/*method calculates */
-	public static void ColorCalculatingNoReflection(double[] n, double[] q, int i, int j){
+	public static void ColorCalculatingNoReflection(float[] n, float[] q, int i, int j){
 		int [] RGB = {0,0,0};
 		
-		double multiplic = multiplicateVectors(n,q);
-		double lengthQ = calculateLength(q);
-		double lengthN = calculateLength(n);
+		float multiplic = multiplicateVectors(n,q);
+		float lengthQ = calculateLength(q);
+		float lengthN = calculateLength(n);
 		
-		double cosAlpha = multiplic / (lengthN*lengthQ);
+		float cosAlpha = multiplic / (lengthN*lengthQ);
 		
 		/*calculate color with this new cosAlpha as a vector*/
 	}
 
-	private static double calculateLength(double[] t) {
-		double result = Math.sqrt(t[0]*t[0]+t[1]*t[1]+t[2]*t[2]);
+	private static float calculateLength(float[] t) {
+		float result = (float) Math.sqrt(t[0]*t[0]+t[1]*t[1]+t[2]*t[2]);
 		return result;
 	}
 
-	private static double multiplicateVectors(double[] n, double[] q) {
-		double result = 0;
+	private static float multiplicateVectors(float[] n, float[] q) {
+		float result = 0;
 		int size = n.length;
 		for (int i = 0; i < size; i++) {
 			result += n[i]*q[i];
@@ -33,37 +32,37 @@ public class ColorInterpolation {
 		
 		
 	}
-	private static double[] getProjection (double a, double[] p){
-		double[] tmp = new double[3];
+	private static float[] getProjection (float a, float[] p){
+		float[] tmp = new float[3];
 		for (int i = 0; i < p.length; i++) {
 			tmp[i]=a*p[i];
 		}
 		return tmp;
 	}
-	private static double[] calculateVector (double[] v, double[] p){
-		double[] tmp = new double[3];
+	private static float[] calculateVector (float[] v, float[] p){
+		float[] tmp = new float[3];
 		for (int i = 0; i < p.length; i++) {
 			tmp[i]=v[i]-p[i];
 		}
 		return tmp;
 		
 	}
-	public static void ColorCalculatingReflection (double[] n, double[] v, int i, int j){ //normal vector of camera, v=vector of light
-		double[] norN = normalize(n);
-		double[] norV = normalize(v);
-		double[] p = new double[3];
-		double[] w = new double[3];
+	public static void ColorCalculatingReflection (float[] n, float[] v, int i, int j){ //normal vector of camera, v=vector of light
+		float[] norN = normalize(n);
+		float[] norV = normalize(v);
+		float[] p = new float[3];
+		float[] w = new float[3];
 		
-		double vec = multiplicateVectors(norN, norV);
+		float vec = multiplicateVectors(norN, norV);
 		p = getProjection(vec, norN);
 		p = getProjection(2, p);
 		w = calculateVector(norV, p);
 		
-		double multiplic = multiplicateVectors(w,norV);
-		double lengthV = calculateLength(norV);
-		double lengthW = calculateLength(w);
+		float multiplic = multiplicateVectors(w,norV);
+		float lengthV = calculateLength(norV);
+		float lengthW = calculateLength(w);
 		
-		double cosAlpha = multiplic / (lengthV*lengthW); //calulate cos of angle between color vector and vector of reflected ray
+		float cosAlpha = multiplic / (lengthV*lengthW); //calulate cos of angle between color vector and vector of reflected ray
 		
 		/*now we can continue with ray tracing on following vector w that becomes light vector a
 		 * and old camera vector */
@@ -74,9 +73,9 @@ public class ColorInterpolation {
 		
 	}
 
-	private static double[] normalize(double[] n) {
-		double length = calculateLength(n);
-		double[] tmp = new double[3];
+	private static float[] normalize(float[] n) {
+		float length = calculateLength(n);
+		float[] tmp = new float[3];
 		for (int i = 0; i < n.length; i++) {
 			tmp[i] = n[i]/length;
 		}
