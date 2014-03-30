@@ -1,9 +1,8 @@
 package raytracing;
 
-// Represents a sphere with radius `radius` and center in [0, 0, 0].
-
 import java.awt.Color;
 
+// Represents a sphere with radius `radius` and center in [0, 0, 0].
 public class SphereBody extends ColoredBody implements Body {
     
     private final float radiusSquare;
