@@ -10,15 +10,18 @@ public class Scene {
     private final Body[] bodies;
     private final Light[] lights;
     private final RayCaster rayCaster;
+    private final LightingModel lighting;
     
-    public Scene(Body[] bodies, Light[] lights, RayCaster rayCaster) {
+    public Scene(Body[] bodies, Light[] lights, RayCaster rayCaster, LightingModel lighting) {
         this.bodies = bodies;
         this.lights = lights;
         this.rayCaster = rayCaster;
+        this.lighting = lighting;
     }
     
     public Color getRGB(Ray ray) {
         Intersection intersection = rayCaster.castRay(ray, bodies);
-        return Color.BLACK; // TODO: Replace with actual color at intersection
+        Color color = lighting.getRGB(intersection, lights);
+        return color;
     }
 }
