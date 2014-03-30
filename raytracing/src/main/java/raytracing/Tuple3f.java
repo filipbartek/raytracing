@@ -1,7 +1,7 @@
 package raytracing;
 
 /**
- *
+ * Mimics javax.vecmath.Tuple3f
  * @author Filip Bartek
  */
 public class Tuple3f implements Cloneable {
