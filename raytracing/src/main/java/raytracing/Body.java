@@ -17,5 +17,8 @@ public interface Body {
     float fy(float[/*3*/] point);
     float fz(float[/*3*/] point);
     
+    /**
+     * @return Base diffuse color of the body
+     */
     Color getColor();
 }
