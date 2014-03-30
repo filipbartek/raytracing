@@ -1,5 +1,7 @@
 package raytracing;
 
+import java.awt.Color;
+
 /**
  *
  * @author Filip Bartek
@@ -14,4 +16,6 @@ public interface Body {
     float fx(float[/*3*/] point);
     float fy(float[/*3*/] point);
     float fz(float[/*3*/] point);
+    
+    Color getColor();
 }
