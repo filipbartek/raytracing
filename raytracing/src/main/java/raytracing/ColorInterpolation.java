@@ -10,7 +10,7 @@ public class ColorInterpolation implements LightingModel{
 	
 	
 	/*method calculates */
-	public static Color ColorCalculatingNoReflection(Intersection i, PointLight[] l){
+	public static Color ColorCalculatingNoReflection(Intersection i, Light[] l){
 		//int [] RGB = {0,0,0};
 		
             float[] intersect = i.getPointFloat();
@@ -20,33 +20,43 @@ public class ColorInterpolation implements LightingModel{
             float z = b.fz(intersect);
             
             float[] normal = {x,y,z};
-            
-            for(PointLight light : l){
+            Color pixelColor = new Color(0,0,0);
+            Color c = b.getColor();
+            int red = c.getRed();
+            int blue = c.getBlue();
+            int green = c.getGreen();
+            int tmpR=0;
+            int tmpG=0;
+            int tmpB=0;
+            for(Light light : l){
             //float[] lig = light.getDirection(intersect);
                 float multiplic = multiplicateVectors(normal,light.getDirection(intersect));
 		//float lengthNormal = calculateLength(normal);
 		//float lengthLight = calculateLength(lig);
 
-		float cosAlpha = multiplic;
-                Color pixelColor = new Color(0,0,0);
-                Color c = b.getColor();
-                int red = c.getRed();
-                int blue = c.getBlue();
-                int green = c.getGreen();
-                int tmpR;
-                int tmpG;
-                int tmpB;
-                if(cosAlpha <= 0){
-                   return (new Color (0,0,0)); 
+                float cosAlpha = multiplic;
+                
+             
+                if(cosAlpha < 0){ // calculates the new color. because of for, it sums every light source 
+                	cosAlpha *=-1;
+                	tmpR += Math.round(red*cosAlpha);
+                	tmpG += Math.round(green*cosAlpha);
+                	tmpB += Math.round(blue*cosAlpha);
                 }
-                else{ // calculates the new color
-                    tmpR = Math.round(red*cosAlpha);
-                    tmpG = Math.round(green*cosAlpha);
-                    tmpB = Math.round(blue*cosAlpha);
-                }
-                return (new Color(tmpR,tmpG,tmpB));
+                
             }
-            return null;
+            if(tmpR > 255){
+                tmpR = 255;
+            }
+            if(tmpG > 255){
+                tmpG = 255;
+            }
+            if(tmpB > 255){
+                tmpB = 255;
+            }
+            
+            return (new Color(tmpR,tmpG,tmpB));
+            
 	}
 
 	private static float calculateLength(float[] t) {
@@ -115,7 +125,49 @@ public class ColorInterpolation implements LightingModel{
 	}
 
     @Override
-    public Color getRGB(Intersection intersection, Light[] lights) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Color getRGB(Intersection i, Light[] l) {
+    	float[] intersect = i.getPointFloat();
+        Body b = i.body;
+        float x = b.fx(intersect);
+        float y = b.fy(intersect);
+        float z = b.fz(intersect);
+        
+        float[] normal = {x,y,z};
+        Color pixelColor = new Color(0,0,0);
+        Color c = b.getColor();
+        int red = c.getRed();
+        int blue = c.getBlue();
+        int green = c.getGreen();
+        int tmpR=0;
+        int tmpG=0;
+        int tmpB=0;
+        for(Light light : l){
+        //float[] lig = light.getDirection(intersect);
+            float multiplic = multiplicateVectors(normal,light.getDirection(intersect));
+	//float lengthNormal = calculateLength(normal);
+	//float lengthLight = calculateLength(lig);
+
+	float cosAlpha = multiplic;
+            
+         
+            if(cosAlpha > 0){ // calculates the new color. because of for, it sums every light source 
+               tmpR += Math.round(red*cosAlpha);
+               tmpG += Math.round(green*cosAlpha);
+               tmpB += Math.round(blue*cosAlpha);
+            }
+            
+        }
+        if(tmpR > 255){
+            tmpR = 255;
+        }
+        if(tmpG > 255){
+            tmpG = 255;
+        }
+        if(tmpB > 255){
+            tmpB = 255;
+        }
+        
+        return (new Color(tmpR,tmpG,tmpB));
+        
     }
 }
