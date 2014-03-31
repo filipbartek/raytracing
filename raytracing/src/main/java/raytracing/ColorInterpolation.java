@@ -148,7 +148,7 @@ public class ColorInterpolation implements LightingModel{
 	//
 	//float lengthLight = calculateLength(lig);
 
-	float cosAlpha = multiplic;
+	float cosAlpha = -multiplic;
             
          
             if(cosAlpha > 0){ // calculates the new color. because of for, it sums every light source 
