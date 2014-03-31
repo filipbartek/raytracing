@@ -1,5 +1,9 @@
 package raytracing;
 
+/**
+ * Translates a body (i.e. moves in space)
+ * @author Filip Bartek
+ */
 public class TranslatedBody extends TransformedBody {
 
     private final Tuple3f translation;
@@ -36,3 +40,13 @@ public class TranslatedBody extends TransformedBody {
     }
     
 }
+/*
+Usage:
+
+Body body = new SphereBody(Color.WHITE, 1);
+Tuple3f translation = new Tuple3f(1, 2, 3);
+TranslatedBody tBody = new TranslatedBody(body, translation);
+float[] point = {1, 2, 2};
+float fVal = tBody.f(point);
+assert fVal == 0;
+*/
