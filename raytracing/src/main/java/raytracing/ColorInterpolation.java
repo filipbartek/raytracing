@@ -133,7 +133,6 @@ public class ColorInterpolation implements LightingModel{
         float z = b.fz(intersect);
         
         float[] normalNotNormalized = {x,y,z};
-		float lengthNormal = calculateLength(normal);
 		float[] normal = normalize(normalNotNormalized);
         Color pixelColor = new Color(0,0,0);
         Color c = b.getColor();
