@@ -75,6 +75,7 @@ public class NewtonRayCaster implements RayCaster {
         
         if (t >= limit) {
             t = Float.POSITIVE_INFINITY;
+            return new IntersectionRay(ray, t, null, hitApprox, hitExact);
         }
         
         return new IntersectionRay(ray, t, bodies[i], hitApprox, hitExact);
