@@ -123,7 +123,7 @@ public class ColorInterpolation implements LightingModel{
 		}
 		return tmp;
 	}
-
+	
     @Override
     public Color getRGB(Intersection i, Light[] l) {
     	float[] intersect = i.getPointFloat();
@@ -132,7 +132,9 @@ public class ColorInterpolation implements LightingModel{
         float y = b.fy(intersect);
         float z = b.fz(intersect);
         
-        float[] normal = {x,y,z};
+        float[] normalNotNormalized = {x,y,z};
+		float lengthNormal = calculateLength(normal);
+		float[] normal = normalize(normalNotNormalized);
         Color pixelColor = new Color(0,0,0);
         Color c = b.getColor();
         int red = c.getRed();
@@ -144,7 +146,7 @@ public class ColorInterpolation implements LightingModel{
         for(Light light : l){
         //float[] lig = light.getDirection(intersect);
             float multiplic = multiplicateVectors(normal,light.getDirection(intersect));
-	//float lengthNormal = calculateLength(normal);
+	//
 	//float lengthLight = calculateLength(lig);
 
 	float cosAlpha = multiplic;
