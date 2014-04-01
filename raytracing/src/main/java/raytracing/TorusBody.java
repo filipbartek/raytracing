@@ -1,3 +1,7 @@
+package raytracing;
+
+import java.awt.Color;
+
 public class TorusBody extends ColoredBody implements Body {
     
     private final float minorRadius;

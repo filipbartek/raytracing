@@ -1,3 +1,4 @@
+package raytracing;
 
 
 public class Elipsoid extends ColoredBody implements Body {
