@@ -6,28 +6,20 @@ public class TorusBody extends ColoredBody implements Body {
     
     private final float minorRadius;
 	private final float majorRadius;
-	private final float location;
     
     public TorusBody(Color color, float location, float minorRadius, float majorRadius) {
         super(color);
         this.minorRadius = minorRadius;
 		this.majorRadius = majorRadius;
-		this.location=location;
     }
 
-	public gmajorRadius(){return majorRadius;}
-	public gminorRadius(){return minorRadius*minorRadius;}
+	public float gmajorRadius(){return majorRadius;}
+	public float gminorRadius(){return minorRadius*minorRadius;}
 	
-	public Tuple3f getLocation(){
-		return location;
-	}
-	public void setLocation(Tuple3f newL){
-		location=newL;
-	}
     @Override
     public float f(float[/*3*/] p) {
         Tuple3f point = new Tuple3f(p);
-        return (gmajorRadius()-Math.sqrt(point.x * point.x + point.y * point.y))*(gmajorRadius()-Math.sqrt(point.x * point.x + point.y * point.y)) + point.z * point.z - gminorRadius();
+        return (gmajorRadius()-(float)Math.sqrt(point.x * point.x + point.y * point.y))*(gmajorRadius()-(float)Math.sqrt(point.x * point.x + point.y * point.y)) + point.z * point.z - gminorRadius();
     }
 
     @Override
