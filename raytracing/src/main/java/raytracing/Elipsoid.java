@@ -26,7 +26,7 @@ public class Elipsoid extends ColoredBody implements Body {
 	
     /**
      * Returns the value of implicit descriptive function of the ellipsoid
-     * Value: x^2/a^2 + y^2/b^2 + z^2/c^2 - 1
+     * Value: x^2/a^2+y^2/b^2+z^2/c^2-1
      * @param p {x, y, z}
      * @return Value of f(p)
      */
