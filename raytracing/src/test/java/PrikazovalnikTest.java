@@ -1,11 +1,12 @@
 import java.awt.Color;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import raytracing.Body;
 import raytracing.ColorInterpolation;
 import raytracing.Light;
 import raytracing.LightingModel;
+import raytracing.MemoizedBody;
 import raytracing.NewtonRayCaster;
 import raytracing.PointLight;
 import raytracing.RayCaster;
@@ -28,12 +29,12 @@ public class PrikazovalnikTest {
     private static Scene buildScene() {
         Color colorLeft = Color.RED;
         Color colorRight = Color.YELLOW;
-        Body body0 = new TranslatedBody(new SphereBody(colorRight, 0.75f), new Tuple3f(-1, 0, 0));
-        Body body1 = new TranslatedBody(new SphereBody(colorRight, 0.75f), new Tuple3f(1, 0, 0));
-        Body body2 = new TranslatedBody(new SphereBody(colorLeft, 1.0f), new Tuple3f(0, -1, 0));
+        Body body0 = new MemoizedBody(new TranslatedBody(new SphereBody(colorRight, 0.75f), new Tuple3f(-1, 0, 0)));
+        Body body1 = new MemoizedBody(new TranslatedBody(new SphereBody(colorRight, 0.75f), new Tuple3f(1, 0, 0)));
+        Body body2 = new MemoizedBody(new TranslatedBody(new SphereBody(colorLeft, 1.0f), new Tuple3f(0, -1, 0)));
         Light light0 = new PointLight(new Tuple3f(0, 5, 0), Color.WHITE);
         Light light1 = new PointLight(new Tuple3f(0, 5, 5), Color.WHITE);
-        float step = 1.0f / 32;
+        float step = 1.0f / 8;
         float limit = 32;
         int approxSteps = 16;
         LightingModel lighting = new ColorInterpolation();
@@ -54,8 +55,8 @@ public class PrikazovalnikTest {
         cam = new Camera(loc,dir);
         scene = buildScene();
         
-        resX = 64;
-        resY = 64;
+        resX = 256;
+        resY = 256;
     }
     
     /**
