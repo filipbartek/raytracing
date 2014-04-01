@@ -14,9 +14,8 @@ public class TranslatedBody extends TransformedBody {
     }
     
     private float[/*3*/] getTranslatedPoint(float[/*3*/] point) {
-        Tuple3f p = new Tuple3f(point);
-        p.sub(translation);
-        return p.getFloat();
+        float[] result = {point[0] - translation.x, point[1] - translation.y, point[2] - translation.z};
+        return result;
     }
     
     @Override
