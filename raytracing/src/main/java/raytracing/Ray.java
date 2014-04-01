@@ -40,4 +40,9 @@ public class Ray {
         pointPrev = (Tuple3f) rayPoint.clone();
         return rayPoint;
     }
+
+    @Override
+    public Ray clone() {
+        return new Ray(startingPoint, dir);
+    }
 }
