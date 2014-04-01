@@ -9,7 +9,6 @@ package raytracing;
 import java.awt.Color;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.BeforeClass;
 
 /**
@@ -18,23 +17,16 @@ import org.junit.BeforeClass;
  */
 public class SceneTest {
     
-    public SceneTest() {
-    }
+    private static Color colorLeft;
+    private static Color colorRight;
+    private static Color bgColor;
+    private static Scene scene;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-    }
-
-    /**
-     * Test of getRGB method, of class Scene.
-     */
-    @Test
-    public void testGetRGB() {
-        System.out.println("getRGB");
-        
-        Color colorLeft = Color.RED;
+        colorLeft = Color.RED;
         Body body0 = new TranslatedBody(new SphereBody(colorLeft, 2.0f), new Tuple3f(-1, 0, 0));
-        Color colorRight = Color.YELLOW;
+        colorRight = Color.YELLOW;
         Body body1 = new TranslatedBody(new SphereBody(colorRight, 2.0f), new Tuple3f(1, 0, 0));
         Light light0 = new PointLight(new Tuple3f(0, 0, -8), Color.WHITE);
         Light light1 = new PointLight(new Tuple3f(0, 0, -8), Color.WHITE);
@@ -42,12 +34,20 @@ public class SceneTest {
         float limit = 32;
         int approxSteps = 16;
         LightingModel lighting = new ColorInterpolation();
-        Color bgColor = Color.BLACK;
+        bgColor = Color.BLACK;
         
         Body[] bodies = {body0, body1};
         Light[] lights = {light0, light1};
         RayCaster rayCaster = new NewtonRayCaster(step, limit, approxSteps);
-        Scene scene = new Scene(bodies, lights, rayCaster, lighting, bgColor);
+        scene = new Scene(bodies, lights, rayCaster, lighting, bgColor);
+    }
+
+    /**
+     * Test of getRGB method, of class Scene.
+     */
+    @Test
+    public void testGetRGBBody() {
+        System.out.println("getRGB body");
         
         Ray rayLeft = new Ray(new Tuple3f(-1, 0, -4), new Tuple3f(0, 0, 1));
         Color resultLeft = scene.getRGB(rayLeft);
@@ -56,6 +56,14 @@ public class SceneTest {
         Ray rayRight = new Ray(new Tuple3f(1, 0, -4), new Tuple3f(0, 0, 1));
         Color resultRight = scene.getRGB(rayRight);
         assertEquals(colorRight, resultRight);
+    }
+    
+    /**
+     * Test of getRGB method, of class Scene.
+     */
+    @Test
+    public void testGetRGBBg() {
+        System.out.println("getRGB background");
         
         Ray rayBg = new Ray(new Tuple3f(0, 4, -4), new Tuple3f(0, 0, 1));
         Color resultBg = scene.getRGB(rayBg);
