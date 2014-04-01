@@ -7,8 +7,6 @@ public class Elipsoid extends ColoredBody implements Body {
 	private final float a;
 	private final float b;
 	private final float c;
-	
-	int d=1;
     
     public Elipsoid(Color color, float a, float b, float c ) {
         super(color);
@@ -24,7 +22,7 @@ public class Elipsoid extends ColoredBody implements Body {
     @Override
     public float f(float[/*3*/] p) {
         Tuple3f point = new Tuple3f(p);
-        return (point.x * point.x)/getA() + (point.y * point.y)/getB() + (point.z * point.z)/getC() - d;
+        return (point.x * point.x)/getA() + (point.y * point.y)/getB() + (point.z * point.z)/getC() - 1;
     }
 
     @Override
