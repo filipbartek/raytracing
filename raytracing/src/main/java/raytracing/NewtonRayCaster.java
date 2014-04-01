@@ -18,7 +18,9 @@ public class NewtonRayCaster implements RayCaster {
     
     @Override
     public Intersection castRay(Ray ray, Body[] bodies) {
-        IntersectionRay intersection = stepT(ray, bodies);
+        Ray rayNormalized = (Ray) ray.clone();
+        rayNormalized.dir.normalize();
+        IntersectionRay intersection = stepT(rayNormalized, bodies);
         if (!intersection.hitApprox || intersection.hitExact) {
             return intersection;
         }
@@ -35,17 +37,17 @@ public class NewtonRayCaster implements RayCaster {
     // TODO: Identify the intersecting body more precisely
     // TODO: Adaptive step length
     private IntersectionRay stepT(Ray ray, Body[] bodies) {
-        float t;
+        assert ray.dir.isNormalized();
+        float t = 0;
         boolean hitApprox = false;
         boolean hitExact = false;
         float[] fSignumsPrev = new float[bodies.length];
         int i = 0;
-        Tuple3f stepVec = ray.dir.clone();
-        stepVec.scale(step);
-        Tuple3f rayPoint = ray.startingPoint.clone();
-        for (t = 0.0f; t < limit; t += step) {
-            // assert rayPoint.equals(ray.rayPoint(t));
+        //for (t = 0.0f; t < limit; t += step) {
+        while (t < limit) {
+            Tuple3f rayPoint = ray.rayPoint(t);
             // Now we have rayPoint for this iteration (value of t).
+            float fValAbsMin = Float.POSITIVE_INFINITY;
             for (i = 0; i < bodies.length; i++) {
                 Body body = bodies[i];
                 float fVal = body.f(rayPoint.getFloat());
@@ -67,11 +69,15 @@ public class NewtonRayCaster implements RayCaster {
                     }
                 }
                 fSignumsPrev[i] = fSignum;
+                fValAbsMin = Math.min(fValAbsMin, Math.abs(fVal));
             }
             if (hitApprox) {
                 break;
             }
-            rayPoint.add(stepVec);
+            // Adaptive `t` change (increase by at least `step`):
+            float tChange = Math.max(step, (float) Math.sqrt(fValAbsMin));
+            // Expects sqrt(fVal) to be an upper bound of distance to the body.
+            t += tChange;
         }
         
         if (t >= limit) {
