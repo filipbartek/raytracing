@@ -11,14 +11,17 @@ public class Tuple3f implements Cloneable {
     public float x;
     public float y;
     public float z;
+    private final float epsilon;
 
     public Tuple3f() {
         this.x = 0.0f;
         this.y = 0.0f;
         this.z = 0.0f;
+        this.epsilon = 0.001f;
     }
     
     public Tuple3f(float x, float y, float z) {
+        this();
         this.x = x;
         this.y = y;
         this.z = z;
@@ -39,6 +42,7 @@ public class Tuple3f implements Cloneable {
     }
     
     public Tuple3f(float[/*3*/] t) {
+        this();
         assert t.length >= 3;
         this.x = t[0];
         this.y = t[1];
@@ -70,6 +74,16 @@ public class Tuple3f implements Cloneable {
     public void normalize() {
         float s = 1.0f / length();
         scale(s);
+    }
+    
+    public boolean isNormalized() {
+        float len = length();
+        len -= 1.0f;
+        assert epsilon > 0;
+        if (len >= -epsilon && len <= epsilon) {
+            return true;
+        }
+        return false;
     }
     
     @Override
