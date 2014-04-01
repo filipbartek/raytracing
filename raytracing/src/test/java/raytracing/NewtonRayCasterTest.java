@@ -54,7 +54,7 @@ public class NewtonRayCasterTest {
         float radius = 1;
         float expCoord = (float) Math.sqrt(radius * radius / 3);
         float[] expResult = {expCoord, expCoord, expCoord};
-        double delta = 0.0;
+        double delta = 0.0001;
         Color color = Color.WHITE;
         
         Ray ray = new Ray(startingPoint, dir);
