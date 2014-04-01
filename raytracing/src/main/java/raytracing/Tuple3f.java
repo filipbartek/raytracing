@@ -73,12 +73,8 @@ public class Tuple3f implements Cloneable {
     }
     
     @Override
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError();
-        }
+    public Tuple3f clone() {
+        return new Tuple3f(x, y, z);
     }
     
     @Override
