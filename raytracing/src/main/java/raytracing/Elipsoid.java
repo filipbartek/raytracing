@@ -3,17 +3,15 @@ package raytracing;
 import java.awt.Color;
 
 public class Elipsoid extends ColoredBody implements Body {
-    
-	private final float location;
+
 	private final float a;
 	private final float b;
 	private final float c;
 	
 	int d=1;
     
-    public Elipsoid(Color color, float location, float a, float b, float c ) {
+    public Elipsoid(Color color, float a, float b, float c ) {
         super(color);
-		this.location=location;
 		this.a=a;
 		this.b=b;
 		this.c=c;
@@ -22,13 +20,6 @@ public class Elipsoid extends ColoredBody implements Body {
 	public float getC(){return c*c;}
 	public float getA(){return a*a;}
 	public float getB(){return b*b;}
-	
-	public Tuple3f getLocation(){
-		return location;
-	}
-	public void setLocation(Tuple3f newL){
-		location=newL;
-	}
 	
     @Override
     public float f(float[/*3*/] p) {
