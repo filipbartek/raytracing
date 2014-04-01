@@ -33,6 +33,7 @@ public class NewtonRayCaster implements RayCaster {
     
     // Estimate t by making linearly spaced steps
     // TODO: Identify the intersecting body more precisely
+    // TODO: Adaptive step length
     private IntersectionRay stepT(Ray ray, Body[] bodies) {
         float t;
         boolean hitApprox = false;
