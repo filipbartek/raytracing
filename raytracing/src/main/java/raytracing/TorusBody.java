@@ -16,6 +16,13 @@ public class TorusBody extends ColoredBody implements Body {
 	public float gmajorRadius(){return majorRadius;}
 	public float gminorRadius(){return minorRadius*minorRadius;}
 	
+        
+    /**
+     * Value: (c-sqrt(x^2+y^2))^2+z^2-a^2
+     * Where c is major radius and a is minor radius
+     * @param p
+     * @return 
+     */
     @Override
     public float f(float[/*3*/] p) {
         Tuple3f point = new Tuple3f(p);
