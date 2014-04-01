@@ -1,5 +1,6 @@
 package raytracing;
 
+import java.awt.Color;
 
 public class Elipsoid extends ColoredBody implements Body {
     
