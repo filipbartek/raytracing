@@ -26,7 +26,7 @@ public class TorusBody extends ColoredBody implements Body {
     @Override
     public float f(float[/*3*/] p) {
         Tuple3f point = new Tuple3f(p);
-        return (gmajorRadius()-(float)Math.sqrt(point.x * point.x + point.y * point.y))*(gmajorRadius()-(float)Math.sqrt(point.x * point.x + point.y * point.y)) + point.z * point.z - gminorRadius();
+        return (gmajorRadius()-(float)Math.sqrt(point.x * point.x + point.y * point.y))*(gmajorRadius()-(float)Math.sqrt(point.x * point.x + point.y * point.y)) + point.z * point.z - gminorRadius() * gminorRadius();
     }
 
     @Override
