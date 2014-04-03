@@ -13,8 +13,10 @@ import raytracing.LightingModel;
 import raytracing.NewtonRayCaster;
 import raytracing.PointLight;
 import raytracing.RayCaster;
+import raytracing.ScaledBody;
 import raytracing.Scene;
 import raytracing.SphereBody;
+import raytracing.TorusBody;
 import raytracing.TranslatedBody;
 import raytracing.Tuple3f;
 
@@ -291,9 +293,9 @@ private void save(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save
         Color colorLeft = Color.RED;
         Color colorRight = Color.YELLOW;
         Body body0 = new TranslatedBody(new SphereBody(colorRight, 0.75f), new Tuple3f(-1, 0, 0));
-        
         Body body1 = new TranslatedBody(new SphereBody(colorRight, 0.75f), new Tuple3f(1, 0, 0));
-        Body body2 = new TranslatedBody(new SphereBody(colorLeft, 1.0f), new Tuple3f(0, -1, 0));
+        Body body2 = new TranslatedBody(new ScaledBody(new SphereBody(colorLeft, 1.0f), new Tuple3f(1, 2, 1)), new Tuple3f(0, 1, 0));
+        //Body bodyTorus = new TranslatedBody(new TorusBody(Color.PINK, 1, 2f), new Tuple3f(0, 0, 0));
         Light light0 = new PointLight(new Tuple3f(0, 5, 0), Color.WHITE);
         Light light1 = new PointLight(new Tuple3f(0, 5, 5), Color.WHITE);
         float step = 1.0f / 32;
@@ -303,19 +305,22 @@ private void save(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save
         Color bgColor = Color.DARK_GRAY;
         
         Body[] bodies = {body0, body1, body2};
+        //Body[] bodies = {bodyTorus};
         Light[] lights = {light0, light1};
         RayCaster rayCaster = new NewtonRayCaster(step, limit, approxSteps);
         return new Scene(bodies, lights, rayCaster, lighting, bgColor);
     }
 
     private void render(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_render
-        float[] loc={0,-0.6f,4};
-        float[] dir={0,0,-1};
+        //float[] loc={0,-0.6f,4};
+        //float[] dir={0,0.25f,-1};
+        float[] loc={3,3,3};
+        float[] dir={-1,-1,-1};
         
         Camera cam=new Camera(loc,dir);
         try {
             message.setText("Message: Rendering");
-            izvirna.render(cam, buildScene(), 64, 64);
+            izvirna.render(cam, buildScene(), 512, 512);
             message.setText("Message: Render complete");
         } catch (Exception e) {
             message.setText("Message: Render error");
