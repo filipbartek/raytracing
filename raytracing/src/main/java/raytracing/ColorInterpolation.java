@@ -152,9 +152,10 @@ public class ColorInterpolation implements LightingModel{
             
          
             if(cosAlpha > 0){ // calculates the new color. because of for, it sums every light source 
-               tmpR += Math.round(red*cosAlpha);
-               tmpG += Math.round(green*cosAlpha);
-               tmpB += Math.round(blue*cosAlpha);
+                float[] lightColor = light.getColor().getRGBComponents(null);
+               tmpR += Math.round(red*cosAlpha*lightColor[0]);
+               tmpG += Math.round(green*cosAlpha*lightColor[1]);
+               tmpB += Math.round(blue*cosAlpha*lightColor[2]);
             }
             
         }
