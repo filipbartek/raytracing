@@ -7,7 +7,7 @@ public class TorusBody extends ColoredBody implements Body {
     private final float minorRadius;
 	private final float majorRadius;
     
-    public TorusBody(Color color, float location, float minorRadius, float majorRadius) {
+    public TorusBody(Color color, float minorRadius, float majorRadius) {
         super(color);
         this.minorRadius = minorRadius;
 		this.majorRadius = majorRadius;
